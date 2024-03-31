@@ -1,7 +1,5 @@
 from flask import Flask, jsonify
 import pickle
-import pandas as pd
-import matplotlib.pyplot as plt
 
 app = Flask(__name__)
 
