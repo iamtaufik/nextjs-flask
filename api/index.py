@@ -1,9 +1,23 @@
 from flask import Flask, jsonify
+import pickle
+import pandas as pd
+import matplotlib.pyplot as plt
+
 app = Flask(__name__)
+
+model = pickle.load(open('prophet_model.pkl', 'rb'))
 
 @app.route("/api/python")
 def hello_world():
     return "<p>Hello, World!</p>"
+
+@app.route('/predict')
+def predict():
+    test = model.make_future_dataframe(periods=12*4, freq='M')
+    forecast = model.predict(test)  
+    
+    return jsonify(forecast.to_dict())  # Kembalikan hasil prediksi dalam format JSON
+
 
 @app.route("/api/posts")
 def get_posts():
